@@ -2,7 +2,7 @@
 #include <TMCStepper.h>
 #include <AccelStepper.h> // NUOVA LIBRERIA
 
-#define R_SENSE 0.11f 
+#define R_SENSE 0.11f
 
 // Pin Motore X
 #define X_EN_PIN   12
@@ -14,8 +14,8 @@
 #define Y_STEP_PIN 6
 #define Y_DIR_PIN  5
 
-TMC2209Stepper driverX(&Serial2, R_SENSE, 0); 
-TMC2209Stepper driverY(&Serial2, R_SENSE, 2); 
+TMC2209Stepper driverX(&Serial2, R_SENSE, 0);
+TMC2209Stepper driverY(&Serial2, R_SENSE, 2);
 
 // --- INIZIALIZZAZIONE ACCELSTEPPER ---
 // Parametro 1 = DRIVER (significa che usiamo 1 pin per STEP e 1 per DIR)
@@ -43,7 +43,7 @@ unsigned long lastAccelUpdate = 0;
 
 void setup() {
   Serial.begin(115200);
-  
+
   // Inizializza il generatore di numeri casuali leggendo un pin analogico vuoto
   randomSeed(analogRead(A0));
 
@@ -57,17 +57,17 @@ void setup() {
   Serial2.setTX(8);
   Serial2.setRX(9);
   Serial2.begin(115200);
-  
+
   driverX.begin();
   driverY.begin();
 
   // --- CONFIGURAZIONE TMC VIA UART ---
   Serial.println("Configuro Motori via UART...");
-  driverX.toff(5);                 
-  driverX.rms_current(800);        
-  driverX.microsteps(16);          
-  driverX.en_spreadCycle(false);   
-  driverX.pwm_autoscale(true);     
+  driverX.toff(5);
+  driverX.rms_current(800);
+  driverX.microsteps(16);
+  driverX.en_spreadCycle(false);
+  driverX.pwm_autoscale(true);
 
   driverY.toff(5);
   driverY.rms_current(800);
@@ -79,13 +79,13 @@ void setup() {
   // AccelStepper ha bisogno di conoscere la velocità e accelerazione massima
   stepperX.setMaxSpeed(MAX_SPEED);
   stepperY.setMaxSpeed(MAX_SPEED);
-  // Non usiamo la funzione setAcceleration di AccelStepper perché useremo runSpeed() 
+  // Non usiamo la funzione setAcceleration di AccelStepper perché useremo runSpeed()
   // e calcoleremo noi la rampa di velocità per avere un moto continuo senza fermate a posizioni fisse.
 
   // Abilita fisicamente i motori
   digitalWrite(X_EN_PIN, LOW);
   digitalWrite(Y_EN_PIN, LOW);
-  
+
   Serial.println("Setup completato. Avvio simulazione microgravità!");
 }
 
@@ -95,16 +95,16 @@ void loop() {
   // --- 1. GENERATORE DI TARGET CASUALI MOTORE X ---
   if (currentMillis - lastChangeX > nextIntervalX) {
     lastChangeX = currentMillis;
-    nextIntervalX = random(MIN_INTERVAL, MAX_INTERVAL); // Prossimo cambio tra 3 e 10 secondi
+    nextIntervalX = random(MIN_INTERVAL, MAX_INTERVAL); // Prossimo cambio tra 1/3 minuti
     // Genera una velocità a caso tra -MAX_SPEED e +MAX_SPEED
     // Il segno negativo farà invertire automaticamente la direzione!
-    targetSpeedX = random(-MAX_SPEED, MAX_SPEED); 
+    targetSpeedX = random(-MAX_SPEED, MAX_SPEED);
   }
 
   // --- 2. GENERATORE DI TARGET CASUALI MOTORE Y (Completamente Asincrono) ---
   if (currentMillis - lastChangeY > nextIntervalY) {
     lastChangeY = currentMillis;
-    nextIntervalY = random(MIN_INTERVAL, MAX_INTERVAL); 
+    nextIntervalY = random(MIN_INTERVAL, MAX_INTERVAL);
     targetSpeedY = random(-MAX_SPEED, MAX_SPEED);
   }
 
@@ -112,9 +112,9 @@ void loop() {
   // Aggiorniamo la velocità corrente verso la velocità target 100 volte al secondo (ogni 10ms)
   if (currentMillis - lastAccelUpdate >= 10) {
     lastAccelUpdate = currentMillis;
-    
+
     // Calcola l'incremento di velocità per questo step di tempo (0.01 secondi)
-    float speedStep = MAX_ACCEL * 0.01; 
+    float speedStep = MAX_ACCEL * 0.01;
 
     // Rampa per X
     float currentSpeedX = stepperX.speed();
