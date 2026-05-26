@@ -2,4 +2,4 @@
 
 Source code and modified stl files of our custom RPM, here you can find the original project https://github.com/wahabk/Clinostat?tab=readme-ov-file   
 
-![Random Positioning Machine](Video_clinostato.gif)
+![Random Positioning Machine](Media/Video_clinostato.gif)
