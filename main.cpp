@@ -25,7 +25,9 @@ AccelStepper stepperY(AccelStepper::DRIVER, Y_STEP_PIN, Y_DIR_PIN);
 // --- PARAMETRI DI COMPORTAMENTO DELLA RPM ---
 // A 16 microstep, 3200 step = 1 giro. 1000 step/sec corrispondono a circa 18.7 RPM
 // I motori muovono delle pulegge da 16 denti, quella dell'asse x è connessa direttamente ad una puleggia da 50 denti, quindi la massima velocità raggiungibile in RPM è
-// 60/[(3200/290)*(50/16)] = 1,74 RPM. L'asse y invece è mosso da una puleggia di 30 denti, quindi la massima velocità raggiungibile è 60/[(3200/290)*(30/16)] = 2,90 RPM
+// 60/[(3200/290)*(50/16)] = 1,74 RPM. L'asse y invece è collegato ad una puleggia da 50 denti ma poi è mosso da una puleggia di 30 denti,
+// quindi la massima velocità raggiungibile è 60/[(3200/290)*(50/16)*(30/50)] = 2,90 RPM
+
 const float MAX_SPEED = 290.0;     // Velocità massima in step/secondo
 const float MAX_ACCEL = 150.0;     // Accelerazione in step/sec^2 (più è basso, più è "gentile")
 const long MIN_INTERVAL = 60000;    // Tempo minimo tra un cambio di target e l'altro (millisecondi)
