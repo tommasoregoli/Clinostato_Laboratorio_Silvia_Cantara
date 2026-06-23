@@ -4,4 +4,7 @@ Source code and modified stl files of our custom RPM, here you can find the orig
 
 ![Random Positioning Machine](Media/Video_clinostato.gif)
 
-![3D Acceleration Distribution](Media/3D_Acceleration_Distribution.png)
+![3D Acceleration Distribution](Media/3D_Acceleration_Distribution_1_hour.png)
+
+
+![3D Acceleration Distribution](Media/3D_Acceleration_Distribution_2_hours.png)
